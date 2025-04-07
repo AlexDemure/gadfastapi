@@ -53,12 +53,8 @@ src/
 ├── tools
 │   └── fastapi
 │       └── routing.py
-├── utils
-│   └── strings.py
-└── utils.py
-```
-
-```
+└── utils
+    └── strings.py
 tests/
 ├── conftest.py
 ├── const.py
