@@ -12,79 +12,79 @@ src/
 │   │   │   ├── dummy.py
 │   │   │   ├── __init__.py
 │   │   │   └── __pycache__
-│   │   │       ├── base.cpython-313.pyc
-│   │   │       ├── dummy.cpython-313.pyc
-│   │   │       └── __init__.cpython-313.pyc
+│   │   │       ├── base
+│   │   │       ├── dummy
+│   │   │       └── __init__
 │   │   ├── __init__.py
 │   │   ├── migrations
 │   │   │   ├── env.py
 │   │   │   ├── __pycache__
-│   │   │   │   └── env.cpython-313.pyc
+│   │   │   │   └── env
 │   │   │   ├── README
 │   │   │   ├── script.py.mako
 │   │   │   └── versions
 │   │   │       ├── 2025-04-07-20-25_f7a28e30105b_init.py
 │   │   │       ├── __init__.py
 │   │   │       └── __pycache__
-│   │   │           └── 2025-04-07-20-25_f7a28e30105b_init.cpython-313.pyc
+│   │   │           └── 2025-04-07-20-25_f7a28e30105b_init
 │   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-313.pyc
-│   │   │   └── setup.cpython-313.pyc
+│   │   │   ├── __init__
+│   │   │   └── setup
 │   │   ├── setup.py
 │   │   └── tables
 │   │       ├── base.py
 │   │       ├── dummy.py
 │   │       ├── __init__.py
 │   │       └── __pycache__
-│   │           ├── base.cpython-313.pyc
-│   │           ├── dummy.cpython-313.pyc
-│   │           └── __init__.cpython-313.pyc
+│   │           ├── base
+│   │           ├── dummy
+│   │           └── __init__
 │   ├── __pycache__
-│   │   ├── exceptions.cpython-313.pyc
-│   │   ├── __init__.cpython-313.pyc
-│   │   ├── orm.cpython-313.pyc
-│   │   └── sessions.cpython-313.pyc
+│   │   ├── exceptions
+│   │   ├── __init__
+│   │   ├── orm
+│   │   └── sessions
 │   └── sessions.py
 ├── domain
 │   ├── collections
 │   │   ├── enums
 │   │   │   ├── __init__.py
 │   │   │   └── __pycache__
-│   │   │       └── __init__.cpython-313.pyc
+│   │   │       └── __init__
 │   │   ├── exceptions
 │   │   │   ├── dummy.py
 │   │   │   ├── __init__.py
 │   │   │   └── __pycache__
-│   │   │       ├── dummy.cpython-313.pyc
-│   │   │       └── __init__.cpython-313.pyc
+│   │   │       ├── dummy
+│   │   │       └── __init__
 │   │   ├── __init__.py
 │   │   └── __pycache__
-│   │       └── __init__.cpython-313.pyc
+│   │       └── __init__
 │   ├── __init__.py
 │   ├── models
 │   │   ├── base.py
 │   │   ├── dummy.py
 │   │   ├── __init__.py
 │   │   └── __pycache__
-│   │       ├── base.cpython-313.pyc
-│   │       ├── dummy.cpython-313.pyc
-│   │       └── __init__.cpython-313.pyc
+│   │       ├── base
+│   │       ├── dummy
+│   │       └── __init__
 │   ├── __pycache__
-│   │   └── __init__.cpython-313.pyc
+│   │   └── __init__
 │   ├── repositories
 │   │   ├── base.py
 │   │   ├── dummy.py
 │   │   ├── __init__.py
 │   │   └── __pycache__
-│   │       ├── base.cpython-313.pyc
-│   │       ├── dummy.cpython-313.pyc
-│   │       └── __init__.cpython-313.pyc
+│   │       ├── base
+│   │       ├── dummy
+│   │       └── __init__
 │   └── services
 │       ├── dummy.py
 │       ├── __init__.py
 │       └── __pycache__
-│           ├── dummy.cpython-313.pyc
-│           └── __init__.cpython-313.pyc
+│           ├── dummy
+│           └── __init__
 ├── endpoints
 │   ├── http
 │   │   ├── const
@@ -92,8 +92,8 @@ src/
 │   │   │   │   └── __init__.py
 │   │   │   ├── __init__.py
 │   │   │   ├── __pycache__
-│   │   │   │   ├── __init__.cpython-313.pyc
-│   │   │   │   └── tags.cpython-313.pyc
+│   │   │   │   ├── __init__
+│   │   │   │   └── tags
 │   │   │   └── tags.py
 │   │   ├── deps
 │   │   │   └── __init__.py
@@ -102,46 +102,46 @@ src/
 │   │   │   ├── dummy
 │   │   │   │   ├── __init__.py
 │   │   │   │   ├── __pycache__
-│   │   │   │   │   ├── __init__.cpython-313.pyc
-│   │   │   │   │   ├── routers.cpython-313.pyc
-│   │   │   │   │   └── schemas.cpython-313.pyc
+│   │   │   │   │   ├── __init__
+│   │   │   │   │   ├── routers
+│   │   │   │   │   └── schemas
 │   │   │   │   ├── routers.py
 │   │   │   │   └── schemas.py
 │   │   │   ├── __init__.py
 │   │   │   └── __pycache__
-│   │   │       └── __init__.cpython-313.pyc
+│   │   │       └── __init__
 │   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-313.pyc
-│   │   │   └── schemas.cpython-313.pyc
+│   │   │   ├── __init__
+│   │   │   └── schemas
 │   │   ├── schemas.py
 │   │   └── systemapi
 │   │       ├── dummy
 │   │       │   ├── __init__.py
 │   │       │   ├── __pycache__
-│   │       │   │   ├── __init__.cpython-313.pyc
-│   │       │   │   ├── routers.cpython-313.pyc
-│   │       │   │   └── schemas.cpython-313.pyc
+│   │       │   │   ├── __init__
+│   │       │   │   ├── routers
+│   │       │   │   └── schemas
 │   │       │   ├── routers.py
 │   │       │   └── schemas.py
 │   │       ├── __init__.py
 │   │       └── __pycache__
-│   │           └── __init__.cpython-313.pyc
+│   │           └── __init__
 │   ├── __init__.py
 │   └── __pycache__
-│       └── __init__.cpython-313.pyc
+│       └── __init__
 ├── framework
 │   ├── application.py
 │   ├── __init__.py
 │   ├── logger.py
 │   ├── __pycache__
-│   │   ├── application.cpython-313.pyc
-│   │   ├── __init__.cpython-313.pyc
-│   │   ├── logger.cpython-313.pyc
-│   │   └── settings.cpython-313.pyc
+│   │   ├── application
+│   │   ├── __init__
+│   │   ├── logger
+│   │   └── settings
 │   └── settings.py
 ├── __init__.py
 ├── __pycache__
-│   └── __init__.cpython-313.pyc
+│   └── __init__
 ├── static
 ├── storages
 │   ├── __init__.py
@@ -152,17 +152,17 @@ src/
 │   ├── fastapi
 │   │   ├── __init__.py
 │   │   ├── __pycache__
-│   │   │   ├── __init__.cpython-313.pyc
-│   │   │   └── routing.cpython-313.pyc
+│   │   │   ├── __init__
+│   │   │   └── routing
 │   │   └── routing.py
 │   ├── __init__.py
 │   └── __pycache__
-│       └── __init__.cpython-313.pyc
+│       └── __init__
 ├── utils
 │   ├── __init__.py
 │   ├── __pycache__
-│   │   ├── __init__.cpython-313.pyc
-│   │   └── strings.cpython-313.pyc
+│   │   ├── __init__
+│   │   └── strings
 │   └── strings.py
 └── utils.py
 
