@@ -1,2 +1,2 @@
-from .base import TableType
+from .base import Table
 from .dummy import Dummy

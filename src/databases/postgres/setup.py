@@ -1,5 +1,9 @@
+import enum
 import json
 from contextlib import asynccontextmanager
+from datetime import date
+from datetime import datetime
+from decimal import Decimal
 from functools import partial
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,13 +12,29 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 from src.framework import settings
-from src.tools.utils import DatetimeAwareJSONEncoder
+
+
+class DatetimeAwareJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        elif isinstance(obj, date):
+            return obj.isoformat()
+        elif isinstance(obj, enum.Enum):
+            return obj.value
+        elif isinstance(obj, Decimal):
+            return str(obj)
+        try:
+            return json.JSONEncoder.default(self, obj)
+        except TypeError:
+            return str(obj)
+
 
 custom_serializer = partial(json.dumps, cls=DatetimeAwareJSONEncoder, ensure_ascii=False)
 
 
 _engine = create_async_engine(
-    settings.POSTGRES_URI.unicode_string(),
+    settings.POSTGRES_URL,
     echo=False,
     # echo_pool="debug",
     future=True,

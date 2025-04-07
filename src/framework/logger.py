@@ -1,18 +1,10 @@
-from src.tools.asynclogger import Field
-from src.tools.asynclogger import add_handler
-from src.tools.asynclogger import console_handler
-from src.tools.asynclogger import get_logger
+import json
+import logging
+import sys
 
-from .settings import settings
+from gadlogger import Logger
+from gadlogger import config
 
-if settings.LOGGER_CONSOLE:
-    add_handler(console_handler(level=settings.LOGGER_CONSOLE_LEVEL))
+config.setup(Logger("root", logging.INFO, json, sys.stdout))
 
-
-_initial_values = {
-    Field.facility.value: settings.SERVER_NAME,
-    Field.environment.value: settings.SERVER_ENV,
-}
-
-
-logger = get_logger(**_initial_values)
+logger = logging.getLogger()

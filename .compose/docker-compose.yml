@@ -1,0 +1,22 @@
+version: "3.8"
+
+volumes:
+  .volumes:
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    hostname: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../../.volumes/pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: db
+    command: ["postgres", "-c", "log_statement=all"]

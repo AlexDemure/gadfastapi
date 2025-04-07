@@ -1,11 +1,8 @@
-from fastapi import APIRouter
-from fastapi import Depends
+from src.endpoints.http.openapi import router as openapi
+from src.endpoints.http.systemapi import router as systemapi
+from src.tools.fastapi import APIRouter
 
-from src.framework import settings
-from src.framework.i18n import get_locale
+router = APIRouter(prefix="/api")
 
-from .v1 import router as v1_router
-
-router = APIRouter(prefix=settings.SERVER_API_PATH, dependencies=[Depends(get_locale)])
-
-router.include_router(v1_router)
+router.include_router(openapi)
+router.include_router(systemapi, prefix="/-")

@@ -1,5 +1,5 @@
 from typing import TypeVar
 
-from src.databases.postgres.setup import Table
+from src.databases.postgres.setup import Table as _Table
 
-TableType = TypeVar("TableType", bound=Table)
+Table = TypeVar("Table", bound=_Table)

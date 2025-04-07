@@ -1,28 +1,24 @@
-from src.databases.mongo import mongoconnect
 from src.databases.postgres import pgconnect
+from src.domain import exceptions
 from src.domain import models
 from src.domain import repositories
+from src.utils import strings
 
 
 class Dummy:
     @classmethod
-    async def get(cls, dummy_id: int) -> models.Dummy:
+    async def page(cls, dummy_id: int) -> models.Dummy:
         async with pgconnect() as session:
-            return await repositories.Dummy.get(session, model_id=dummy_id)
+            return await repositories.Dummy.relations(session, id=dummy_id)
 
     @classmethod
-    async def create(cls) -> models.Dummy:
+    async def search(cls, filters: dict, sorting: dict, pagination: dict) -> tuple[list[models.Dummy], int]:
+        async with pgconnect() as session:
+            return await repositories.Dummy.paginated(session, filters, sorting, pagination)
+
+    @classmethod
+    async def create(cls, name: str) -> models.Dummy:
         async with pgconnect(transaction=True) as session:
-            return await repositories.Dummy.create(session, model=models.Dummy.init())
-
-
-class DummyDocument:
-    @classmethod
-    async def get(cls, dummy_id: str) -> models.Dummy:
-        async with mongoconnect() as session:
-            return await repositories.DummyDocument.get(session, model_id=dummy_id)
-
-    @classmethod
-    async def create(cls) -> models.Dummy:
-        async with mongoconnect(transaction=True) as session:
-            return await repositories.DummyDocument.create(session, model=models.DummyDocument.init())
+            if await repositories.Dummy.exists(session, name=strings.to_lower(name)):
+                raise exceptions.DummyAlreadyExistsError
+            return await repositories.Dummy.create(session, model=models.Dummy.init(name=name))

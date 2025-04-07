@@ -1,26 +1,36 @@
-from typing import TypeVar
-from typing import Union
-
 from pydantic import BaseModel
 from pydantic import ConfigDict
 
-from src.databases.postgres.tables import TableType
+from src.databases.postgres.tables import Table
 
 
 class Model(BaseModel):
     model_config = ConfigDict(from_attributes=True, extra="allow")
 
     @classmethod
-    def orm(cls, obj: Union[dict, TableType]) -> "Model":
-        if isinstance(obj, dict):
-            return cls.model_validate({"id": str(obj.pop("_id")), **obj})
-        else:
-            # from_attributes=True
-            return cls.model_validate({k: v for k, v in obj.__dict__.items() if not k.startswith("_")})
+    def to_dict(cls, table: Table) -> dict:
+        return {k: v for k, v in table.__dict__.items() if not k.startswith("_")}
+
+    @classmethod
+    def to_model(cls, table: Table) -> "Model":
+        model = Model.model_validate(cls.to_dict(table))
+
+        for key, value in model.model_extra.items():
+            if isinstance(value, Table.__bound__):
+                setattr(model, key, cls.to_model(value))
+
+        return model
+
+    @classmethod
+    def from_orm(cls, table: Table) -> "Model":
+        model = cls.model_validate(cls.to_dict(table))
+
+        for key, value in model.model_extra.items():
+            if isinstance(value, Table.__bound__):
+                setattr(model, key, cls.to_model(value))
+
+        return model
 
     @classmethod
     def init(cls, *args, **kwargs) -> dict:
         raise NotImplementedError
-
-
-ModelType = TypeVar("ModelType", bound=Model)
