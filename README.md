@@ -1,46 +1,59 @@
+<p align="center">
+  <a href="https://github.com/AlexDemure/gadfastapi">
+    <a href="https://ibb.co/YB0bHZCd"><img src="https://i.ibb.co/hFYC3f6d/logo.png" alt="logo" border="0"></a>
+  </a>
+</p>
+
+<p align="center">
+  File architecture for FastApi app
+</p>
+
+---
+
+This repository presents a modular file architecture for FastAPI applications — with a focus on simplicity, clarity, and separation of concerns. It’s designed to help developers quickly scaffold and maintain clean service layers across databases, domain logic, endpoints, and framework configuration.
+
+At the moment, the project is evolving around the idea of **code generation and automation** — reducing boilerplate by generating typical service code (repositories, services, endpoints, schemas), while leaving business logic implementation in a dedicated space. The goal is to speed up development without losing flexibility and control.
+
+Explore the templates or try generating your own modules with:
+
+```shell
+uv init; uv add gadcodegen isort ruff;
+
+# Add project
+uv run gadcodegen -f https://raw.githubusercontent.com/AlexDemure/gadfastapi/refs/heads/main/.templates/project.toml;
+
+# Add module
+uv run gadcodegen -f https://raw.githubusercontent.com/AlexDemure/gadfastapi/refs/heads/main/.templates/module.toml --context '{"module": {"snake": {"single": "user", "many": "users"}, "pascal": {"single": "User", "many": "Users"}, "kebab": {"single": "user", "many": "users"}}}';
 ```
+```>>> tree```
+```shell
 src/
 ├── databases
 │   ├── exceptions.py
 │   ├── orm.py
 │   ├── postgres
 │   │   ├── crud
-│   │   │   ├── base.py
-│   │   │   └── dummy.py
 │   │   ├── migrations
-│   │   │   ├── env.py
-│   │   │   ├── README
-│   │   │   ├── script.py.mako
-│   │   │   └── versions
-│   │   │       └── 2025-04-07-20-25_f7a28e30105b_init.py
 │   │   ├── setup.py
 │   │   └── tables
-│   │       ├── base.py
-│   │       └── dummy.py
 │   └── sessions.py
 ├── domain
 │   ├── collections
 │   │   └── exceptions
-│   │       └── dummy.py
 │   ├── models
-│   │   ├── base.py
-│   │   └── dummy.py
 │   ├── repositories
-│   │   ├── base.py
-│   │   └── dummy.py
 │   └── services
-│       └── dummy.py
 ├── endpoints
 │   └── http
 │       ├── const
 │       │   └── tags.py
 │       ├── openapi
-│       │   └── dummy
+│       │   └── {{module}}
 │       │       ├── routers.py
 │       │       └── schemas.py
 │       ├── schemas.py
 │       └── systemapi
-│           └── dummy
+│           └── {{module}}
 │               ├── routers.py
 │               └── schemas.py
 ├── framework
