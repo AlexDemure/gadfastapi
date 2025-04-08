@@ -356,8 +356,8 @@ from .{{module.snake.many}} import {{module.pascal.single}}
 # Scripts
 [[scripts]]
 command = "isort ."
-check = true
+check = false
 
 [[scripts]]
 command = "ruff format . --no-cache"
-check = true
+check = false

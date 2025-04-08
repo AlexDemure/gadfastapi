@@ -1200,8 +1200,8 @@ def to_capitalize(string: str | None) -> str | None:
 # Scripts
 [[scripts]]
 command = "isort ."
-check = true
+check = false
 
 [[scripts]]
 command = "ruff format . --no-cache"
-check = true
+check = false
