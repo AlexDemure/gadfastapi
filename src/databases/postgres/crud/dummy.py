@@ -1,16 +1,10 @@
-from sqlalchemy import BinaryExpression
-from sqlalchemy import UnaryExpression
-from sqlalchemy import select
-from sqlalchemy.sql import asc
-from sqlalchemy.sql import desc
+from sqlalchemy import BinaryExpression, UnaryExpression, select
+from sqlalchemy.sql import asc, desc
 
 from src.databases.postgres import tables
 from src.databases.postgres.setup import AsyncSession
 
-from .base import CRUD
-from .base import count
-from .base import fetchall
-from .base import fetchone
+from .base import CRUD, count, fetchall, fetchone
 
 
 class Dummy(CRUD):

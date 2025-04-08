@@ -1,11 +1,6 @@
 from datetime import date
 
-from sqlalchemy import BinaryExpression
-from sqlalchemy import delete
-from sqlalchemy import exists
-from sqlalchemy import func
-from sqlalchemy import select
-from sqlalchemy import update
+from sqlalchemy import BinaryExpression, delete, exists, func, select, update
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.sql import Select
 

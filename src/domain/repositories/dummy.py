@@ -1,6 +1,5 @@
 from src.databases import postgres
-from src.domain import exceptions
-from src.domain import models
+from src.domain import exceptions, models
 
 from .base import Repository
 

@@ -1,9 +1,6 @@
-from typing import Any
-from typing import Self
-from typing import Union
+from typing import Any, Self, Union
 
-from pydantic import BaseModel
-from pydantic import conint
+from pydantic import BaseModel, conint
 
 from src.domain import models
 

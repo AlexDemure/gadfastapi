@@ -1,7 +1,5 @@
 from src.databases.postgres import pgconnect
-from src.domain import exceptions
-from src.domain import models
-from src.domain import repositories
+from src.domain import exceptions, models, repositories
 from src.utils import strings
 
 

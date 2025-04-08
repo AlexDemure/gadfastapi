@@ -1,8 +1,6 @@
-from enum import StrEnum
-from enum import auto
+from enum import StrEnum, auto
 
-from pydantic_settings import BaseSettings
-from pydantic_settings import SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Env(StrEnum):

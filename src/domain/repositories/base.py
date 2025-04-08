@@ -1,10 +1,7 @@
-from datetime import UTC
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Union
 
-from src.databases import ORM
-from src.databases import ObjectNotFoundError
-from src.databases import Session
+from src.databases import ORM, ObjectNotFoundError, Session
 from src.domain.models import Model
 
 

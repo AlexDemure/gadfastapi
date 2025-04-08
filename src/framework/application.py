@@ -1,14 +1,14 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-from fastapi import Request
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.openapi.docs import get_redoc_html
-from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.openapi.docs import get_redoc_html, get_swagger_ui_html
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from gadopenapi import OpenAPI
+from gadopenapi.extensions.affix import affix
 from gadopenapi.extensions.errors import APIError
+from gadopenapi.extensions.operationid import use_route_as_operation_id
 
 from src.endpoints.http import router
 
@@ -38,7 +38,7 @@ async def redoc():
 
 @app.get("/api/openapi.json", include_in_schema=False)
 async def openapi():
-    return OpenAPI(app).generate()
+    return OpenAPI(app, handlers=[affix, use_route_as_operation_id]).generate()
 
 
 app.add_middleware(

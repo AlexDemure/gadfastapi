@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-from pydantic import ConfigDict
+from pydantic import BaseModel, ConfigDict
 
 from src.databases.postgres.tables import Table
 
