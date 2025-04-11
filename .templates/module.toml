@@ -62,23 +62,20 @@ async def search(body: Search = Body(...)) -> {{module.pascal.many}}:
 [[files]]
 path = "src/endpoints/http/openapi/{{module.snake.many}}/schemas.py"
 content = """
-from typing import Literal
-from typing import Self
-
-from pydantic import BaseModel
-from pydantic import conint
+import pydantic
+import typing
 
 from src.domain import models
 from src.endpoints.http.schemas import Paginated
 from src.endpoints.http.schemas import Pagination
 
-class Search(BaseModel):
-    class Filter(BaseModel):
+class Search(pydantic.BaseModel):
+    class Filter(pydantic.BaseModel):
         ...
 
-    class Sorting(BaseModel):
-        field: Literal["id"]
-        type: Literal["asc", "desc"]
+    class Sorting(pydantic.BaseModel):
+        field: typing.Literal["id"]
+        type: typing.Literal["asc", "desc"]
 
     filters: Filter
     sorting: Sorting
@@ -91,12 +88,14 @@ class Search(BaseModel):
             pagination=self.pagination.deserialize,
         )
 
-class {{module.pascal.single}}(BaseModel):
+
+class {{module.pascal.single}}(pydantic.BaseModel):
     id: int
 
     @classmethod
     def serialize(cls, model: models.{{module.pascal.single}}) -> Self:
         return cls(id=model.id)
+
 
 class {{module.pascal.many}}(Paginated):
     items: list[{{module.pascal.single}}]
@@ -182,14 +181,14 @@ async def delete({{module.snake.single}}_id: int = Path(..., ge=1, alias="id")) 
 [[files]]
 path = "src/endpoints/http/systemapi/{{module.snake.many}}/schemas.py"
 content = """
-from pydantic import BaseModel
+import pydantic
 
 from src.domain import models
 
-class Create{{module.pascal.single}}(BaseModel):
+class Create{{module.pascal.single}}(pydantic.BaseModel):
     id: int
 
-class Update{{module.pascal.single}}(BaseModel):
+class Update{{module.pascal.single}}(pydantic.BaseModel):
     id: int
 
 class {{module.pascal.single}}(models.{{module.pascal.single}}):
@@ -222,7 +221,7 @@ from .{{module.snake.many}} import *
 [[files]]
 path = "src/domain/models/{{module.snake.many}}.py"
 content = """
-from typing import Self
+import typing
 
 from .base import Model
 
@@ -230,7 +229,7 @@ class {{module.pascal.single}}(Model):
     id: int
 
     @classmethod
-    def init(cls, id: int) -> Self:
+    def init(cls, id: int) -> typing.Self:
         return cls(id=id)
 """
 

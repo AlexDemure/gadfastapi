@@ -168,8 +168,8 @@ datefmt = %H:%M:%S
 [[files]]
 path ="cli.py"
 content = """
-import typer as typer
-import uvicorn as uvicorn
+import typer
+import uvicorn
 
 app = typer.Typer()
 
@@ -181,7 +181,7 @@ def run(workers: int = 1):
         host="0.0.0.0",
         workers=workers,
         app_dir="src",
-        log_config=None
+        log_config=None,
     )
 
 if __name__ == "__main__":
@@ -342,23 +342,21 @@ class ObjectNotFoundError(Exception): ...
 [[files]]
 path ="src/databases/orm.py"
 content = """
-from typing import TypeVar
-from typing import Union
+import typing
 
 from src.databases import postgres
 
-ORM = TypeVar("ORM", bound=Union[postgres.CRUD])
+ORM = typing.TypeVar("ORM", bound=typing.Union[postgres.CRUD])
 """
 
 [[files]]
 path ="src/databases/sessions.py"
 content = """
-from typing import TypeVar
-from typing import Union
+import typing
 
 from src.databases import postgres
 
-Session = TypeVar("Session", bound=Union[postgres.Session])
+Session = typing.TypeVar("Session", bound=typing.Union[postgres.Session])
 """
 
 [[files]]
@@ -373,13 +371,12 @@ from .setup import pgconnect
 [[files]]
 path ="src/databases/postgres/setup.py"
 content = """
+import contextlib
+import datetime
+import decimal
 import enum
+import functools
 import json
-from contextlib import asynccontextmanager
-from datetime import date
-from datetime import datetime
-from decimal import Decimal
-from functools import partial
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker
@@ -391,13 +388,13 @@ from src.framework import settings
 
 class DatetimeAwareJSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, datetime):
+        if isinstance(obj, datetime.datetime):
             return obj.isoformat()
-        elif isinstance(obj, date):
+        elif isinstance(obj, datetime.date):
             return obj.isoformat()
         elif isinstance(obj, enum.Enum):
             return obj.value
-        elif isinstance(obj, Decimal):
+        elif isinstance(obj, decimal.Decimal):
             return str(obj)
         try:
             return json.JSONEncoder.default(self, obj)
@@ -405,7 +402,7 @@ class DatetimeAwareJSONEncoder(json.JSONEncoder):
             return str(obj)
 
 
-custom_serializer = partial(json.dumps, cls=DatetimeAwareJSONEncoder, ensure_ascii=False)
+custom_serializer = functools.partial(json.dumps, cls=DatetimeAwareJSONEncoder, ensure_ascii=False)
 
 
 _engine = create_async_engine(
@@ -422,14 +419,14 @@ _sessionmaker = async_sessionmaker(_engine, expire_on_commit=False)
 Table = declarative_base()
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def _read() -> AsyncSession:
     async with _sessionmaker() as session:
         await session.connection(execution_options={"isolation_level": "AUTOCOMMIT"})
         yield session
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def _write() -> AsyncSession:
     async with _sessionmaker() as session:
         try:
@@ -440,7 +437,7 @@ async def _write() -> AsyncSession:
             raise e
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def pgconnect(transaction: bool = False) -> AsyncSession:
     if transaction:
         async with _write() as session:
@@ -459,7 +456,7 @@ from .base import CRUD
 [[files]]
 path ="src/databases/postgres/crud/base.py"
 content = """
-from datetime import date
+import datetime
 
 from sqlalchemy import BinaryExpression
 from sqlalchemy import delete
@@ -486,7 +483,7 @@ class CRUD:
             if fields[key] is not None:
                 if isinstance(fields[key], list):
                     expressions.append(getattr(cls.table, key).in_(fields[key]))
-                elif isinstance(fields[key], date):
+                elif isinstance(fields[key], datetime.date):
                     expressions.append(func.DATE(getattr(cls.table, key)) == fields[key])
                 else:
                     expressions.append(getattr(cls.table, key) == fields[key])
@@ -667,11 +664,11 @@ from .base import Table
 [[files]]
 path ="src/databases/postgres/tables/base.py"
 content = """
-from typing import TypeVar
+import typing
 
 from src.databases.postgres.setup import Table as _Table
 
-Table = TypeVar("Table", bound=_Table)
+Table = typing.TypeVar("Table", bound=_Table)
 """
 
 # Domain
@@ -691,14 +688,13 @@ from .base import Model
 [[files]]
 path ="src/domain/models/base.py"
 content = """
-from pydantic import BaseModel
-from pydantic import ConfigDict
+import pydantic
 
 from src.databases.postgres.tables import Table
 
 
-class Model(BaseModel):
-    model_config = ConfigDict(from_attributes=True, extra="allow")
+class Model(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(from_attributes=True, extra="allow")
 
     @classmethod
     def to_dict(cls, table: Table) -> dict:
@@ -732,9 +728,9 @@ class Model(BaseModel):
 [[files]]
 path ="src/domain/repositories/base.py"
 content = """
-from datetime import UTC
-from datetime import datetime
-from typing import Union
+import typing
+
+from gadify import dates
 
 from src.databases import ORM
 from src.databases import ObjectNotFoundError
@@ -795,68 +791,44 @@ class Repository:
         return cls.model.from_orm(row)
 
     @classmethod
-    async def update(cls, session: Session, id: Union[str, int], **kwargs) -> None:
-        await cls.orm.update(session=session, id=id, updated_at=datetime.now(UTC), **kwargs)
+    async def update(cls, session: Session, id: typing.Union[str, int], **kwargs) -> None:
+        await cls.orm.update(session=session, id=id, updated_at=dates.now(), **kwargs)
 
     @classmethod
     async def delete(cls, session: Session, **kwargs) -> None:
         return await cls.orm.delete(session, **kwargs)
 """
 
-# Endpoints
-[[files]]
-path ="src/endpoints/http/const/tags.py"
-content = """
-SYSTEMAPI = "🔐"
-OPENAPI = "⚪️"
-"""
-
-[[files]]
-path ="src/endpoints/http/__init__.py"
-content = """
-from src.endpoints.http.openapi import router as openapi
-from src.endpoints.http.systemapi import router as systemapi
-from src.tools.fastapi import APIRouter
-
-router = APIRouter(prefix="/api")
-
-router.include_router(openapi)
-router.include_router(systemapi, prefix="/-")
-"""
-
 [[files]]
 path ="src/endpoints/http/schemas.py"
 content = """
-from typing import Any
-from typing import Self
-from typing import Union
+import typing
 
-from pydantic import BaseModel
-from pydantic import conint
+import pydantic
 
 from src.domain import models
 
 
-class ID(BaseModel):
-    id: Union[int, str]
+class ID(pydantic.BaseModel):
+    id: typing.Union[int, str]
 
     @classmethod
-    def serialize(cls, item: models.Model) -> Self:
+    def serialize(cls, item: models.Model) -> typing.Self:
         return cls(id=item.id)
 
 
-class Pagination(BaseModel):
-    page: conint(gt=0, le=1000)
-    size: conint(gt=0, le=100)
+class Pagination(pydantic.BaseModel):
+    page: pydantic.conint(gt=0, le=1000)
+    size: pydantic.conint(gt=0, le=100)
 
     @property
     def deserialize(self) -> dict:
         return dict(limit=self.size, offset=(self.page - 1) * self.size if self.page > 0 else 0)
 
 
-class Paginated(BaseModel):
+class Paginated(pydantic.BaseModel):
     total: int
-    items: list[Any]
+    items: typing.List[typing.Any]
 """
 
 [[files]]
@@ -879,30 +851,27 @@ router = APIRouter()
 [[files]]
 path ="src/framework/settings.py"
 content = """
-from enum import StrEnum
-from enum import auto
+import enum
 
-from pydantic_settings import BaseSettings
-from pydantic_settings import SettingsConfigDict
+import pydantic_settings
 
 
-class Env(StrEnum):
-    develop = auto()
-    production = auto()
+class Env(enum.StrEnum):
+    develop = enum.auto()
+    production = enum.auto()
 
 
-class PostgresSettings(BaseSettings):
+class PostgresSettings(pydantic_settings.BaseSettings):
     POSTGRES_URL: str
 
 
-# INCLUDE SETTINGS
 configs = [
     PostgresSettings,
 ]
 
 
 class Settings(*configs):  # type:ignore
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
+    model_config = pydantic_settings.SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
     ENV: Env
 
@@ -928,7 +897,7 @@ logger = logging.getLogger()
 [[files]]
 path ="src/framework/application.py"
 content = """
-from contextlib import asynccontextmanager
+import contextlib
 
 from fastapi import FastAPI
 from fastapi import Request
@@ -938,13 +907,14 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from gadopenapi import OpenAPI
-from gadopenapi.extensions.errors import APIError
 from gadopenapi.extensions.affix import affix
+from gadopenapi.extensions.errors import APIError
 from gadopenapi.extensions.operationid import use_route_as_operation_id
+
 from src.endpoints.http import router
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def lifespan(_: FastAPI):
     yield
 
@@ -1011,12 +981,10 @@ from .routing import APIRouter
 path ="src/tools/fastapi/routing.py"
 content = """
 import contextlib
+import functools
 import json
 import logging
-from datetime import UTC
-from datetime import datetime
-from functools import partial
-from typing import Callable
+import typing
 
 from fastapi import APIRouter as _APIRouter
 from fastapi import Request
@@ -1024,6 +992,7 @@ from fastapi import status
 from fastapi.exceptions import HTTPException
 from fastapi.exceptions import ValidationException
 from fastapi.routing import APIRoute as _APIRoute
+from gadify import dates
 from starlette.responses import Response
 
 logger = logging.getLogger("fastapi.route")
@@ -1051,7 +1020,7 @@ class Logging:
         return {
             "debug": request.app.debug,
             "service": request.app.title,
-            "api-version": request.app.version,
+            "version": request.app.version,
             "http-version": request.scope.get("http_version", None),
             "ip": f"{request.client.host}:{request.client.port}",
             "method": request.method.upper(),
@@ -1061,8 +1030,8 @@ class Logging:
             "body": {},
             "response": {},
             "code": None,
-            "started_at": datetime.now(UTC),
-            "ended_at": None,
+            "started": dates.now(),
+            "ended": None,
             "elapsed": None,
         }
 
@@ -1071,8 +1040,8 @@ class Logging:
         return f"{self.context['method']} {self.context['url']}"
 
     def timing(self):
-        self.context["ended_at"] = datetime.now(UTC)
-        self.context["elapsed"] = (self.context["ended_at"] - self.context["started_at"]).total_seconds()
+        self.context["ended"] = dates.now()
+        self.context["elapsed"] = (self.context["ended"] - self.context["started"]).total_seconds()
 
     def accepted(self) -> None:
         _logger = logger.warning if self.context.get("body") == "-" else logger.info
@@ -1083,26 +1052,26 @@ class Logging:
         _logger(f"Request processed: {self.endpoint}", extra=self.context)
 
     def error(self) -> None:
-        logger.error(f"Request accepted: {self.endpoint}", extra=self.context, exc_info=True)
+        logger.error(f"Request error: {self.endpoint}", extra=self.context, exc_info=True)
 
 
 class JSON:
     @classmethod
-    def parse_response(cls, response: Response):
+    def parseresponse(cls, response: Response):
         with contextlib.suppress(json.JSONDecodeError):
-            return json.loads(response.body.decode("utf-8"))
+            return json.loads(response.body.decode("utf-8").replace("\n", ""))
         return response.body
 
     @classmethod
-    async def parse_body(cls, request: Request):
+    async def parsebody(cls, request: Request):
         body = await request.body()
         with contextlib.suppress(json.JSONDecodeError):
-            return json.loads(body.decode("utf-8"))
+            return json.loads(body.decode("utf-8").replace("\n", ""))
         return body
 
 
 class APIRoute(_APIRoute):
-    def get_route_handler(self) -> Callable:
+    def get_route_handler(self) -> typing.Callable:
         original_route_handler = super().get_route_handler()
 
         async def custom_route_handler(request: Request) -> Response:
@@ -1116,7 +1085,7 @@ class APIRoute(_APIRoute):
             if request.headers.get("Content-Type") == "application/json":
                 with contextlib.suppress(ValueError):
                     log.context["body"] = (
-                        await JSON.parse_body(request)
+                        await JSON.parsebody(request)
                         if int(request.headers.get("Content-Length", 0)) < log.REQUEST_MAX_LENGTH
                         else "-"
                     )
@@ -1146,7 +1115,7 @@ class APIRoute(_APIRoute):
 
             if response.headers.get("Content-Type") == "application/json":
                 log.context["response"] = (
-                    JSON.parse_response(response) if len(response.body) < log.RESPONSE_MAX_LENGTH else "-"
+                    JSON.parseresponse(response) if len(response.body) < log.RESPONSE_MAX_LENGTH else "-"
                 )
 
             log.timing()
@@ -1157,44 +1126,7 @@ class APIRoute(_APIRoute):
         return custom_route_handler
 
 
-APIRouter = partial(_APIRouter, route_class=APIRoute)
-"""
-
-# Utils
-[[files]]
-path ="src/utils/dates.py"
-content = """
-from datetime import UTC
-from datetime import date
-from datetime import datetime
-
-def now() -> datetime:
-    return datetime.now(UTC)
-
-def midnight() -> datetime:
-    return now().replace(hour=0, minute=0, second=0, microsecond=0)
-
-def today() -> date:
-    return now().date()
-"""
-
-[[files]]
-path ="src/utils/strings.py"
-content = """
-def to_clean(string: str | None) -> str | None:
-    return string.strip() if string else None
-
-def to_lower(string: str | None) -> str | None:
-    return to_clean(string).lower() if string else None
-
-def to_upper(string: str | None) -> str | None:
-    return to_clean(string).upper() if string else None
-
-def to_title(string: str | None) -> str | None:
-    return to_clean(string).title() if string else None
-
-def to_capitalize(string: str | None) -> str | None:
-    return to_clean(string).capitalize() if string else None
+APIRouter = functools.partial(_APIRouter, route_class=APIRoute)
 """
 
 # Scripts
