@@ -1,14 +1,16 @@
 import contextlib
+import functools
 import json
 import logging
-from datetime import UTC, datetime
-from functools import partial
-from typing import Callable
+import typing
 
 from fastapi import APIRouter as _APIRouter
-from fastapi import Request, status
-from fastapi.exceptions import HTTPException, ValidationException
+from fastapi import Request
+from fastapi import status
+from fastapi.exceptions import HTTPException
+from fastapi.exceptions import ValidationException
 from fastapi.routing import APIRoute as _APIRoute
+from gadify import dates
 from starlette.responses import Response
 
 logger = logging.getLogger("fastapi.route")
@@ -36,7 +38,7 @@ class Logging:
         return {
             "debug": request.app.debug,
             "service": request.app.title,
-            "api-version": request.app.version,
+            "version": request.app.version,
             "http-version": request.scope.get("http_version", None),
             "ip": f"{request.client.host}:{request.client.port}",
             "method": request.method.upper(),
@@ -46,8 +48,8 @@ class Logging:
             "body": {},
             "response": {},
             "code": None,
-            "started_at": datetime.now(UTC),
-            "ended_at": None,
+            "started": dates.now(),
+            "ended": None,
             "elapsed": None,
         }
 
@@ -56,8 +58,8 @@ class Logging:
         return f"{self.context['method']} {self.context['url']}"
 
     def timing(self):
-        self.context["ended_at"] = datetime.now(UTC)
-        self.context["elapsed"] = (self.context["ended_at"] - self.context["started_at"]).total_seconds()
+        self.context["ended"] = dates.now()
+        self.context["elapsed"] = (self.context["ended"] - self.context["started"]).total_seconds()
 
     def accepted(self) -> None:
         _logger = logger.warning if self.context.get("body") == "-" else logger.info
@@ -68,18 +70,18 @@ class Logging:
         _logger(f"Request processed: {self.endpoint}", extra=self.context)
 
     def error(self) -> None:
-        logger.error(f"Request accepted: {self.endpoint}", extra=self.context, exc_info=True)
+        logger.error(f"Request error: {self.endpoint}", extra=self.context, exc_info=True)
 
 
 class JSON:
     @classmethod
-    def parse_response(cls, response: Response):
+    def parseresponse(cls, response: Response):
         with contextlib.suppress(json.JSONDecodeError):
             return json.loads(response.body.decode("utf-8").replace("\n", ""))
         return response.body
 
     @classmethod
-    async def parse_body(cls, request: Request):
+    async def parsebody(cls, request: Request):
         body = await request.body()
         with contextlib.suppress(json.JSONDecodeError):
             return json.loads(body.decode("utf-8").replace("\n", ""))
@@ -87,7 +89,7 @@ class JSON:
 
 
 class APIRoute(_APIRoute):
-    def get_route_handler(self) -> Callable:
+    def get_route_handler(self) -> typing.Callable:
         original_route_handler = super().get_route_handler()
 
         async def custom_route_handler(request: Request) -> Response:
@@ -101,7 +103,7 @@ class APIRoute(_APIRoute):
             if request.headers.get("Content-Type") == "application/json":
                 with contextlib.suppress(ValueError):
                     log.context["body"] = (
-                        await JSON.parse_body(request)
+                        await JSON.parsebody(request)
                         if int(request.headers.get("Content-Length", 0)) < log.REQUEST_MAX_LENGTH
                         else "-"
                     )
@@ -131,7 +133,7 @@ class APIRoute(_APIRoute):
 
             if response.headers.get("Content-Type") == "application/json":
                 log.context["response"] = (
-                    JSON.parse_response(response) if len(response.body) < log.RESPONSE_MAX_LENGTH else "-"
+                    JSON.parseresponse(response) if len(response.body) < log.RESPONSE_MAX_LENGTH else "-"
                 )
 
             log.timing()
@@ -142,4 +144,4 @@ class APIRoute(_APIRoute):
         return custom_route_handler
 
 
-APIRouter = partial(_APIRouter, route_class=APIRoute)
+APIRouter = functools.partial(_APIRouter, route_class=APIRoute)

@@ -1,6 +1,6 @@
 from typing import Self
 
-from src.utils import strings
+from gadify import strings
 
 from .base import Model
 
@@ -11,4 +11,4 @@ class Dummy(Model):
 
     @classmethod
     def init(cls, name: str) -> Self:
-        return cls(name=strings.to_lower(name))
+        return cls(name=strings.lower(name))

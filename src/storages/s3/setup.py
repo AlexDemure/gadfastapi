@@ -1,5 +1,6 @@
+from gads3client import S3
+
 from src.framework import settings
-from src.tools.s3 import S3
 
 s3 = S3(
     bucket=settings.S3_BUCKET,

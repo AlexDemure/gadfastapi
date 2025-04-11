@@ -1,11 +1,13 @@
+import contextlib
+import datetime
+import decimal
 import enum
+import functools
 import json
-from contextlib import asynccontextmanager
-from datetime import date, datetime
-from decimal import Decimal
-from functools import partial
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 from src.framework import settings
@@ -13,13 +15,13 @@ from src.framework import settings
 
 class DatetimeAwareJSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, datetime):
+        if isinstance(obj, datetime.datetime):
             return obj.isoformat()
-        elif isinstance(obj, date):
+        elif isinstance(obj, datetime.date):
             return obj.isoformat()
         elif isinstance(obj, enum.Enum):
             return obj.value
-        elif isinstance(obj, Decimal):
+        elif isinstance(obj, decimal.Decimal):
             return str(obj)
         try:
             return json.JSONEncoder.default(self, obj)
@@ -27,7 +29,7 @@ class DatetimeAwareJSONEncoder(json.JSONEncoder):
             return str(obj)
 
 
-custom_serializer = partial(json.dumps, cls=DatetimeAwareJSONEncoder, ensure_ascii=False)
+custom_serializer = functools.partial(json.dumps, cls=DatetimeAwareJSONEncoder, ensure_ascii=False)
 
 
 _engine = create_async_engine(
@@ -44,14 +46,14 @@ _sessionmaker = async_sessionmaker(_engine, expire_on_commit=False)
 Table = declarative_base()
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def _read() -> AsyncSession:
     async with _sessionmaker() as session:
         await session.connection(execution_options={"isolation_level": "AUTOCOMMIT"})
         yield session
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def _write() -> AsyncSession:
     async with _sessionmaker() as session:
         try:
@@ -62,7 +64,7 @@ async def _write() -> AsyncSession:
             raise e
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def pgconnect(transaction: bool = False) -> AsyncSession:
     if transaction:
         async with _write() as session:

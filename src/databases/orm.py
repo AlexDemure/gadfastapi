@@ -1,5 +1,5 @@
-from typing import TypeVar, Union
+import typing
 
 from src.databases import postgres
 
-ORM = TypeVar("ORM", bound=Union[postgres.CRUD])
+ORM = typing.TypeVar("ORM", bound=typing.Union[postgres.CRUD])

@@ -1,9 +1,12 @@
-from typing import Literal, Self
+from typing import Literal
+from typing import Self
 
-from pydantic import BaseModel, constr
+from pydantic import BaseModel
+from pydantic import constr
 
 from src.domain import models
-from src.endpoints.http.schemas import Paginated, Pagination
+from src.endpoints.http.schemas import Paginated
+from src.endpoints.http.schemas import Pagination
 
 
 class Dummy(BaseModel):

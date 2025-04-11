@@ -1,7 +1,9 @@
-from fastapi import Body, status
+from fastapi import Body
+from fastapi import status
 from gadopenapi.extensions.errors import openapi_errors
 
-from src.domain import exceptions, services
+from src.domain import exceptions
+from src.domain import services
 from src.endpoints.http.const import tags
 from src.endpoints.http.schemas import ID
 from src.tools.fastapi import APIRouter

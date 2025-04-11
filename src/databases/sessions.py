@@ -1,5 +1,5 @@
-from typing import TypeVar, Union
+import typing
 
 from src.databases import postgres
 
-Session = TypeVar("Session", bound=Union[postgres.Session])
+Session = typing.TypeVar("Session", bound=typing.Union[postgres.Session])

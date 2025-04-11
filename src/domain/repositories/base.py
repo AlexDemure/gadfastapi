@@ -1,7 +1,10 @@
-from datetime import UTC, datetime
-from typing import Union
+import typing
 
-from src.databases import ORM, ObjectNotFoundError, Session
+from gadify import dates
+
+from src.databases import ORM
+from src.databases import ObjectNotFoundError
+from src.databases import Session
 from src.domain.models import Model
 
 
@@ -58,8 +61,8 @@ class Repository:
         return cls.model.from_orm(row)
 
     @classmethod
-    async def update(cls, session: Session, id: Union[str, int], **kwargs) -> None:
-        await cls.orm.update(session=session, id=id, updated_at=datetime.now(UTC), **kwargs)
+    async def update(cls, session: Session, id: typing.Union[str, int], **kwargs) -> None:
+        await cls.orm.update(session=session, id=id, updated_at=dates.now(), **kwargs)
 
     @classmethod
     async def delete(cls, session: Session, **kwargs) -> None:

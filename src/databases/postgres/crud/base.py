@@ -1,6 +1,11 @@
-from datetime import date
+import datetime
 
-from sqlalchemy import BinaryExpression, delete, exists, func, select, update
+from sqlalchemy import BinaryExpression
+from sqlalchemy import delete
+from sqlalchemy import exists
+from sqlalchemy import func
+from sqlalchemy import select
+from sqlalchemy import update
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.sql import Select
 
@@ -20,7 +25,7 @@ class CRUD:
             if fields[key] is not None:
                 if isinstance(fields[key], list):
                     expressions.append(getattr(cls.table, key).in_(fields[key]))
-                elif isinstance(fields[key], date):
+                elif isinstance(fields[key], datetime.date):
                     expressions.append(func.DATE(getattr(cls.table, key)) == fields[key])
                 else:
                     expressions.append(getattr(cls.table, key) == fields[key])

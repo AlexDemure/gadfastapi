@@ -269,16 +269,17 @@ wheels = [
 
 [[package]]
 name = "gadcodegen"
-version = "0.0.1"
+version = "0.0.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "gadify" },
     { name = "jinja2" },
     { name = "tomli" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5f/94/ac4971b5bdd4029ff43ef801baa7c06b52399b6f3817acdeabb3fa9b101d/gadcodegen-0.0.1.tar.gz", hash = "sha256:ff7a65a565b72832b293ba15fee69641e648a22a73c4a5b387f8c7bb8c5b2eb5", size = 8920 }
+sdist = { url = "https://files.pythonhosted.org/packages/93/7b/9e81a99b26830d4677743d463becab9597f350f1bfc8ebfade46eaef7651/gadcodegen-0.0.3.tar.gz", hash = "sha256:9d4d6a4212f535f7f68ab85a7b683875fd66709ed32dc1f8abf2a270a731d96b", size = 8644 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bd/2c/afb8614019587946fb9c8ed96aa21f2d0ab0180548b3e0f73cf2b7b29772/gadcodegen-0.0.1-py3-none-any.whl", hash = "sha256:3f07f0c0ecae85abf316832b642b7888d3c38292360e368cc22ccda33eebdbf1", size = 11610 },
+    { url = "https://files.pythonhosted.org/packages/96/d0/d7339bccfb22c106996dc333327ed83eb396f2e017ba1f12bdcd33b206b5/gadcodegen-0.0.3-py3-none-any.whl", hash = "sha256:84a01cc59ec2dfbd1807b7f5f1708add2c1a424982f8519f34ad882c07903c7e", size = 10933 },
 ]
 
 [[package]]
@@ -291,6 +292,7 @@ dependencies = [
     { name = "asyncpg" },
     { name = "fastapi" },
     { name = "gadcodegen" },
+    { name = "gadify" },
     { name = "gadlogger" },
     { name = "gadopenapi" },
     { name = "gads3client" },
@@ -315,6 +317,7 @@ requires-dist = [
     { name = "asyncpg", specifier = ">=0.30.0" },
     { name = "fastapi", specifier = ">=0.115.12" },
     { name = "gadcodegen", specifier = ">=0.0.1" },
+    { name = "gadify", specifier = ">=0.0.5" },
     { name = "gadlogger", specifier = ">=0.0.3" },
     { name = "gadopenapi", specifier = ">=0.0.2" },
     { name = "gads3client", specifier = ">=0.0.1" },
@@ -333,34 +336,46 @@ requires-dist = [
 ]
 
 [[package]]
-name = "gadlogger"
-version = "0.0.3"
+name = "gadify"
+version = "0.0.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e2/f3/719aad76dd93d6b3ec3b507fe774bb2229f9f15875512578ce2e58c98b94/gadlogger-0.0.3.tar.gz", hash = "sha256:2d8964eff04bdeb470d116c1f2819359d3446ccc72857ab02d568120bc80f566", size = 6429 }
+sdist = { url = "https://files.pythonhosted.org/packages/82/05/b8fb3ed3fc1a90b5de0137ea04f7aac1c0d815f865a2b283e7ef5a942bdb/gadify-0.0.5.tar.gz", hash = "sha256:0c533b5852c9de14a72abfbe4c8fe3acfccd5743fb9df559a68f6f9169248124", size = 8670 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/c2/6c174efc8559411617d408346729c67b744fa76107c7e0d94a2126305d9a/gadlogger-0.0.3-py3-none-any.whl", hash = "sha256:b77eb88f9c4289b6c07081353b72bb60869a44b13db560d0f10a18769b0fca5d", size = 9242 },
+    { url = "https://files.pythonhosted.org/packages/51/2b/cfb662a1b836507b64853ce24548a03155034cf9899e415c66103ded96bb/gadify-0.0.5-py3-none-any.whl", hash = "sha256:0161545fbd8e55720528981d8a392edc771c662b9dcca011a14adce78a36cf2f", size = 10136 },
+]
+
+[[package]]
+name = "gadlogger"
+version = "0.0.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "gadify" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0e/30/b3f06653b4d5fc7195d8d976fcefaeb6b1fbea864623d55216b29230ad23/gadlogger-0.0.4.tar.gz", hash = "sha256:9797c7cb0ea2fe2c34a97f496b1106b6026b76b7285158650dfab21f5101f50b", size = 6288 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/73/d2/3263d09efd62120d732bf7d6e94d210b054b209bafd2ac958c044a800f44/gadlogger-0.0.4-py3-none-any.whl", hash = "sha256:98b4add1f59cc672d48fad91173f714790d4d2f76db78e91844ac66a8eddf418", size = 8615 },
 ]
 
 [[package]]
 name = "gadopenapi"
-version = "0.0.2"
+version = "0.0.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c5/a0/071040c6729ee2c98b8cec0e0b4805b905e353b342df5d1ea7797d24a56d/gadopenapi-0.0.2.tar.gz", hash = "sha256:b9c542af38a460812f748326e59623051efa7422d726cde9f74265375ae05dc8", size = 6680 }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/04/142ad846a0241676d1a86e26199e74bdf5286065193f53b7e47a6c148f3f/gadopenapi-0.0.3.tar.gz", hash = "sha256:edfa119fe62e3c5f5dacd21709096aca204361b7fba84c61a7827fe4ede4556c", size = 6849 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/51/dd4b6202a72f80b98ca0cfc8cf6c536d54f32351f75c2e13e798904dbf0d/gadopenapi-0.0.2-py3-none-any.whl", hash = "sha256:03ecb2f46f578a01a4d627ff81ed46a48331a4017ac2614030eda377841c6739", size = 8834 },
+    { url = "https://files.pythonhosted.org/packages/5a/47/52bd00bd9375c2b5088244701ddc25c1c1ca6fd6bf6d41c326ade492ed0a/gadopenapi-0.0.3-py3-none-any.whl", hash = "sha256:593a0a4f7bd87af074dd324662a401f47188a7cf350d46ae14ca3a832fb68578", size = 8909 },
 ]
 
 [[package]]
 name = "gads3client"
-version = "0.0.1"
+version = "0.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aioboto3" },
     { name = "aiofiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/be/8f/0c6ef54e8e39aa05dcb6c5d7d04340ea492b1ff835abee3368ea84a78efb/gads3client-0.0.1.tar.gz", hash = "sha256:ab696e30c48c6148e7ea2c30247c39bd4686d84c2ab85c1f2d7bdc4a7de12aef", size = 4015 }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/d8/7fc85fc5baf5a4e19929cc92547b5b3094d0319ac526c250172a3b6b5c7e/gads3client-0.0.2.tar.gz", hash = "sha256:85cbc193ca8487eb03e5fba8a6e17fcc4c38d8dc4921eca32ecd199c35d50a2a", size = 4019 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bf/8a/38448bde67e5461bfda8c5225ddc6c06251f8df8d565cfa03860d22c9597/gads3client-0.0.1-py3-none-any.whl", hash = "sha256:248403ca8da0b3f8193042db258dca6bb3a6ac0f762e80572a687a146af81e72", size = 4191 },
+    { url = "https://files.pythonhosted.org/packages/d6/13/de4dcffc2c4afdd9db0c3e77f3e1f5fbc1316f28e7894b7de5d449f52eb3/gads3client-0.0.2-py3-none-any.whl", hash = "sha256:3e3d2e1465285a90327ed59d1c8c621dc285d437ea6dfb10364d2b96b24dac8a", size = 4187 },
 ]
 
 [[package]]

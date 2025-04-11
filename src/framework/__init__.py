@@ -1,2 +1,3 @@
 from .logger import logger
-from .settings import Env, settings
+from .settings import Env
+from .settings import settings

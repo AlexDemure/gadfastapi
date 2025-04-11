@@ -1,8 +1,10 @@
-from contextlib import asynccontextmanager
+import contextlib
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.openapi.docs import get_redoc_html, get_swagger_ui_html
+from fastapi.openapi.docs import get_redoc_html
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from gadopenapi import OpenAPI
@@ -13,7 +15,7 @@ from gadopenapi.extensions.operationid import use_route_as_operation_id
 from src.endpoints.http import router
 
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def lifespan(_: FastAPI):
     yield
 

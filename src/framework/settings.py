@@ -1,25 +1,24 @@
-from enum import StrEnum, auto
+import enum
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-class Env(StrEnum):
-    develop = auto()
-    production = auto()
+import pydantic_settings
 
 
-class PostgresSettings(BaseSettings):
+class Env(enum.StrEnum):
+    develop = enum.auto()
+    production = enum.auto()
+
+
+class PostgresSettings(pydantic_settings.BaseSettings):
     POSTGRES_URL: str
 
 
-# INCLUDE SETTINGS
 configs = [
     PostgresSettings,
 ]
 
 
 class Settings(*configs):  # type:ignore
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
+    model_config = pydantic_settings.SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
     ENV: Env
 

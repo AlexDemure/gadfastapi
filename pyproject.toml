@@ -10,6 +10,7 @@ dependencies = [
     "asyncpg>=0.30.0",
     "fastapi>=0.115.12",
     "gadcodegen>=0.0.1",
+    "gadify>=0.0.5",
     "gadlogger>=0.0.3",
     "gadopenapi>=0.0.2",
     "gads3client>=0.0.1",

@@ -1,4 +1,6 @@
-from sqlalchemy import BigInteger, Column, String
+from sqlalchemy import BigInteger
+from sqlalchemy import Column
+from sqlalchemy import String
 
 from src.databases.postgres.setup import Table
 

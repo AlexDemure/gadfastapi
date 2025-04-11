@@ -1,6 +1,9 @@
+from gadify import strings
+
 from src.databases.postgres import pgconnect
-from src.domain import exceptions, models, repositories
-from src.utils import strings
+from src.domain import exceptions
+from src.domain import models
+from src.domain import repositories
 
 
 class Dummy:
@@ -17,6 +20,6 @@ class Dummy:
     @classmethod
     async def create(cls, name: str) -> models.Dummy:
         async with pgconnect(transaction=True) as session:
-            if await repositories.Dummy.exists(session, name=strings.to_lower(name)):
+            if await repositories.Dummy.exists(session, name=strings.lower(name)):
                 raise exceptions.DummyAlreadyExistsError
             return await repositories.Dummy.create(session, model=models.Dummy.init(name=name))
