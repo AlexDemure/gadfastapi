@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/AlexDemure/gadfastapi">
-    <a href="https://ibb.co/YB0bHZCd"><img src="https://i.ibb.co/hFYC3f6d/logo.png" alt="logo" border="0"></a>
+  <a href="https://github.com/AlexDemure/gadfaststyle">
+    <a href="https://ibb.co/TqkGRPCN"><img src="https://i.ibb.co/sJ24QsBX/logo.png" alt="logo" border="0"></a>
   </a>
 </p>
 
@@ -17,13 +17,13 @@ At the moment, the project is evolving around the idea of **code generation and 
 Explore the templates or try generating your own modules with:
 
 ```shell
-uv init; uv add gadcodegen isort ruff;
+uv init; uv add gadcodegenerator isort ruff;
 
 # Add project
-uv run gadcodegen -f https://raw.githubusercontent.com/AlexDemure/gadfastapi/refs/heads/main/.templates/project.toml;
+uv run gadcodegenerator -f https://raw.githubusercontent.com/AlexDemure/gadfaststyle/refs/heads/main/.templates/project.toml;
 
 # Add module
-uv run gadcodegen -f https://raw.githubusercontent.com/AlexDemure/gadfastapi/refs/heads/main/.templates/module.toml --context '{"module": {"snake": {"single": "user", "many": "users"}, "pascal": {"single": "User", "many": "Users"}, "kebab": {"single": "user", "many": "users"}}}';
+uv run gadcodegenerator -f https://raw.githubusercontent.com/AlexDemure/gadfaststyle/refs/heads/main/.templates/module.toml --context '{"module": {"snake": {"single": "user", "many": "users"}, "pascal": {"single": "User", "many": "Users"}, "kebab": {"single": "user", "many": "users"}}}';
 ```
 ```>>> tree```
 ```shell

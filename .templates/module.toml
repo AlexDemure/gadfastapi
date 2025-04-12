@@ -24,7 +24,7 @@ content = """
 from fastapi import Body
 from fastapi import Path
 from fastapi import status
-from gadopenapi.extensions.errors import openapi_errors
+from gadfastopenapi.extensions.errors import openapi_errors
 
 from src.domain import exceptions
 from src.domain import services
@@ -123,7 +123,7 @@ from fastapi import Depends
 from fastapi import Path
 from fastapi import status
 from fastapi import Response
-from gadopenapi.extensions.errors import openapi_errors
+from gadfastopenapi.extensions.errors import openapi_errors
 
 from src.domain import exceptions
 from src.domain import services
@@ -204,7 +204,7 @@ from .routers import router
 [[files]]
 path = "src/domain/collections/exceptions/{{module.snake.many}}.py"
 content = """
-from gadopenapi.extensions.errors import APIError
+from gadfastopenapi.extensions.errors import APIError
 
 class {{module.pascal.single}}NotFoundError(APIError): ...
 

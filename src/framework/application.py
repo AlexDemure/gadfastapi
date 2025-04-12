@@ -7,10 +7,10 @@ from fastapi.openapi.docs import get_redoc_html
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from gadopenapi import OpenAPI
-from gadopenapi.extensions.affix import affix
-from gadopenapi.extensions.errors import APIError
-from gadopenapi.extensions.operationid import use_route_as_operation_id
+from gadfastopenapi import OpenAPI
+from gadfastopenapi.extensions.affix import affix
+from gadfastopenapi.extensions.errors import APIError
+from gadfastopenapi.extensions.operationid import use_route_as_operation_id
 
 from src.endpoints.http import router
 

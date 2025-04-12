@@ -1,4 +1,4 @@
-from gadopenapi.extensions.errors import APIError
+from gadfastopenapi.extensions.errors import APIError
 
 
 class DummyNotFoundError(APIError): ...

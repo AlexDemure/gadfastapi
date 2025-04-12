@@ -1,4 +1,4 @@
-from gads3client import S3
+from gads3 import S3
 
 from src.framework import settings
 

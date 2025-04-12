@@ -10,7 +10,7 @@ from fastapi import status
 from fastapi.exceptions import HTTPException
 from fastapi.exceptions import ValidationException
 from fastapi.routing import APIRoute as _APIRoute
-from gadify import dates
+from gadutils import dates
 from starlette.responses import Response
 
 logger = logging.getLogger("fastapi.route")

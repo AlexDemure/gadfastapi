@@ -1,4 +1,4 @@
-from gadify import strings
+from gadutils import strings
 
 from src.databases.postgres import pgconnect
 from src.domain import exceptions

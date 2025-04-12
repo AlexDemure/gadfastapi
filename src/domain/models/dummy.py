@@ -1,6 +1,6 @@
 from typing import Self
 
-from gadify import strings
+from gadutils import strings
 
 from .base import Model
 

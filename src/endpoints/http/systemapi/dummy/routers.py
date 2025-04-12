@@ -1,6 +1,6 @@
 from fastapi import Body
 from fastapi import status
-from gadopenapi.extensions.errors import openapi_errors
+from gadfastopenapi.extensions.errors import openapi_errors
 
 from src.domain import exceptions
 from src.domain import services

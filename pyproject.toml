@@ -1,5 +1,5 @@
 [project]
-name = "gadfastapi"
+name = "gadfaststyle"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -9,11 +9,12 @@ dependencies = [
     "alembic>=1.15.2",
     "asyncpg>=0.30.0",
     "fastapi>=0.115.12",
-    "gadcodegen>=0.0.1",
-    "gadify>=0.0.5",
-    "gadlogger>=0.0.3",
-    "gadopenapi>=0.0.2",
-    "gads3client>=0.0.1",
+    "gadcodegenerator>=0.0.1",
+    "gadfastopenapi>=0.0.1",
+    "gadlogging>=0.0.1",
+    "gadopenapiconverter>=0.0.1",
+    "gads3>=0.0.1",
+    "gadutils>=0.0.1",
     "isort>=6.0.1",
     "motor>=3.7.0",
     "mypy>=1.15.0",

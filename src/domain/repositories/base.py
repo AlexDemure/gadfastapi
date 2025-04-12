@@ -1,6 +1,6 @@
 import typing
 
-from gadify import dates
+from gadutils import dates
 
 from src.databases import ORM
 from src.databases import ObjectNotFoundError
