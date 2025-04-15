@@ -332,6 +332,15 @@ wheels = [
 ]
 
 [[package]]
+name = "gadfastopenapi"
+version = "0.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/3e/a0a8b04ba287afddab84bf5411f2305110f2b3a1dbd773a78b53ab461512/gadfastopenapi-0.0.1.tar.gz", hash = "sha256:061b554cbb161a71cc30be9992e6c2ce1dd9d536a478e52090e09cfbaa2f45e3", size = 6784 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/26/e1/aa4adbf04f85e18278d2e53d34cbb8c3651d7d0dd83aa770d2e4ecd31d78/gadfastopenapi-0.0.1-py3-none-any.whl", hash = "sha256:66e2091de8cd9a3be26c67ae71ccbad40a65df1f3b14cbb4d9b8a498f040f2bf", size = 9131 },
+]
+
+[[package]]
 name = "gadfaststyle"
 version = "0.1.0"
 source = { virtual = "." }
@@ -369,9 +378,9 @@ requires-dist = [
     { name = "gadcodegenerator", specifier = ">=0.0.1" },
     { name = "gadfastopenapi", specifier = ">=0.0.1" },
     { name = "gadlogging", specifier = ">=0.0.1" },
-    { name = "gadopenapiconverter", specifier = ">=0.0.1" },
+    { name = "gadopenapiconverter", specifier = "==0.0.2" },
     { name = "gads3", specifier = ">=0.0.1" },
-    { name = "gadutils", specifier = ">=0.0.1" },
+    { name = "gadutils", specifier = "==0.0.2" },
     { name = "isort", specifier = ">=6.0.1" },
     { name = "motor", specifier = ">=3.7.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -384,15 +393,6 @@ requires-dist = [
     { name = "sqlalchemy", specifier = ">=2.0.40" },
     { name = "typer", specifier = ">=0.15.2" },
     { name = "uvicorn", specifier = ">=0.34.0" },
-]
-
-[[package]]
-name = "gadfastopenapi"
-version = "0.0.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/2e/3e/a0a8b04ba287afddab84bf5411f2305110f2b3a1dbd773a78b53ab461512/gadfastopenapi-0.0.1.tar.gz", hash = "sha256:061b554cbb161a71cc30be9992e6c2ce1dd9d536a478e52090e09cfbaa2f45e3", size = 6784 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/26/e1/aa4adbf04f85e18278d2e53d34cbb8c3651d7d0dd83aa770d2e4ecd31d78/gadfastopenapi-0.0.1-py3-none-any.whl", hash = "sha256:66e2091de8cd9a3be26c67ae71ccbad40a65df1f3b14cbb4d9b8a498f040f2bf", size = 9131 },
 ]
 
 [[package]]
@@ -409,7 +409,7 @@ wheels = [
 
 [[package]]
 name = "gadopenapiconverter"
-version = "0.0.1"
+version = "0.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "datamodel-code-generator" },
@@ -419,9 +419,9 @@ dependencies = [
     { name = "tomli" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/2e/5b28c70d4d5f30e1a51ff046acb6852b1e8192d73c2a7f7b6d84865e9e0f/gadopenapiconverter-0.0.1.tar.gz", hash = "sha256:59978bee2dc8db645c40ff86da0ce09f2f2b31d143a43a9d097e4b6982b27132", size = 13420 }
+sdist = { url = "https://files.pythonhosted.org/packages/44/07/f0ad9988a45ab7e3fe59bb904ca231fcc9bc53b07f30f843082bb5d27a0a/gadopenapiconverter-0.0.2.tar.gz", hash = "sha256:9ed91f85badde6f2ed340d5d7f1093c428baea5af0517e89de1050eb66cb4b19", size = 15213 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/30/2b/d2eea5b7ffaf249705c9bc447878052128300b35fbdb6a4fcab51c067381/gadopenapiconverter-0.0.1-py3-none-any.whl", hash = "sha256:0aa1aad7277e9e1ea17587ad9d62d54dec5600d13f2abdb06d7f8face83d122b", size = 19489 },
+    { url = "https://files.pythonhosted.org/packages/63/7d/1c10de272f8a85e5fbe3a3f7af35f0a520833b2fe91bcdd2400259ce84cf/gadopenapiconverter-0.0.2-py3-none-any.whl", hash = "sha256:3fe8e32de8436772fadca5400246693294130210d3cbca12597f90bceeefe16d", size = 22839 },
 ]
 
 [[package]]
@@ -439,11 +439,11 @@ wheels = [
 
 [[package]]
 name = "gadutils"
-version = "0.0.1"
+version = "0.0.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/11/c8/2c1174b4103d69d4a8ef377c8a9cc6d78ba0e4fe1a96c96e9fc6fc4de84b/gadutils-0.0.1.tar.gz", hash = "sha256:02354d31b086caf87fed4d27562a7d4f7d7cf1d61debc681ac50f62f03bf5c16", size = 8405 }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/f3/8d91f2983c7d1eb6702021f08a75397ce12e62def1742865a26ec14c3148/gadutils-0.0.2.tar.gz", hash = "sha256:6207e568bf88ab33fb1d6a8135e4e2db9f241c0fb7c4cb9226673ce4ebd0b604", size = 8303 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c2/a4/5e75333dcc8c90e1186823eb5c06085b7dd8af6ffee3c0199ad0dd8dd91c/gadutils-0.0.1-py3-none-any.whl", hash = "sha256:3bf11374298efe75ca9598aa80b47c6d884980680b0e14a22337cefb2d087dcf", size = 10153 },
+    { url = "https://files.pythonhosted.org/packages/45/a4/899ca9f2a4fcb0f8371b8261a081f65de6a957a046c8c54791347d72ec03/gadutils-0.0.2-py3-none-any.whl", hash = "sha256:4fb1842fd60d6aec7031ec7029d73b19d4d36cb3c10ae4e890f70e580ddda069", size = 10033 },
 ]
 
 [[package]]
