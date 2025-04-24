@@ -5,6 +5,7 @@ from sqlalchemy import delete
 from sqlalchemy import exists
 from sqlalchemy import func
 from sqlalchemy import select
+from sqlalchemy import text
 from sqlalchemy import update
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.sql import Select
@@ -31,6 +32,12 @@ class CRUD:
                     expressions.append(getattr(cls.table, key) == fields[key])
 
         return expressions
+
+    @classmethod
+    async def id(cls, session: AsyncSession) -> int:
+        sequence = f"{cls.table.__tablename__}_id_seq"
+        query = text("SELECT nextval(:sequence)")
+        return (await session.execute(query, {"sequence": sequence})).scalar()
 
     @classmethod
     async def one(cls, session: AsyncSession, **kwargs) -> Table:

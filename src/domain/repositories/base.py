@@ -14,6 +14,10 @@ class Repository:
     error: Exception
 
     @classmethod
+    async def id(cls, session: Session) -> int:
+        return await cls.orm.id(session)
+
+    @classmethod
     async def one(cls, session: Session, **kwargs) -> "Repository.model":
         try:
             row = await cls.orm.one(session, **kwargs)

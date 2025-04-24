@@ -16,6 +16,16 @@ router = APIRouter()
 
 
 @router.get(
+    "/dummy:id",
+    summary=tags.OPENAPI,
+    status_code=status.HTTP_200_OK,
+    response_model=int,
+)
+async def id() -> int:
+    return await services.Dummy.id()
+
+
+@router.get(
     "/dummy:{id:int}",
     summary=tags.OPENAPI,
     status_code=status.HTTP_200_OK,

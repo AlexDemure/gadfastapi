@@ -8,6 +8,11 @@ from src.domain import repositories
 
 class Dummy:
     @classmethod
+    async def id(cls) -> int:
+        async with pgconnect() as session:
+            return await repositories.Dummy.id(session)
+
+    @classmethod
     async def page(cls, dummy_id: int) -> models.Dummy:
         async with pgconnect() as session:
             return await repositories.Dummy.relations(session, id=dummy_id)
