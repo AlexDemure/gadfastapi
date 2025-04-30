@@ -5,9 +5,7 @@ from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import AsyncEngine
-
 from src.databases.postgres import tables  # noqa:F401
-from src.databases.postgres.setup import Table
 from src.framework import settings
 
 # this is the Alembic Config object, which provides
@@ -24,7 +22,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = Table.metadata
+target_metadata = tables.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

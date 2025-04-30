@@ -1,7 +1,6 @@
-import typing
+from typing import Union
 
 from gadutils import dates
-
 from src.databases import ORM
 from src.databases import ObjectNotFoundError
 from src.databases import Session
@@ -65,7 +64,7 @@ class Repository:
         return cls.model.from_orm(row)
 
     @classmethod
-    async def update(cls, session: Session, id: typing.Union[str, int], **kwargs) -> None:
+    async def update(cls, session: Session, id: Union[str, int], **kwargs) -> None:
         await cls.orm.update(session=session, id=id, updated_at=dates.now(), **kwargs)
 
     @classmethod

@@ -1,27 +1,29 @@
-import typing
+from typing import Any
+from typing import Self
+from typing import Union
 
-import pydantic
-
+from pydantic import BaseModel
+from pydantic import conint
 from src.domain import models
 
 
-class ID(pydantic.BaseModel):
-    id: typing.Union[int, str]
+class ID(BaseModel):
+    id: Union[int, str]
 
     @classmethod
-    def serialize(cls, item: models.Model) -> typing.Self:
+    def serialize(cls, item: models.Model) -> Self:
         return cls(id=item.id)
 
 
-class Pagination(pydantic.BaseModel):
-    page: pydantic.conint(gt=0, le=1000)
-    size: pydantic.conint(gt=0, le=100)
+class Pagination(BaseModel):
+    page: conint(gt=0, le=1000)
+    size: conint(gt=0, le=100)
 
     @property
     def deserialize(self) -> dict:
         return dict(limit=self.size, offset=(self.page - 1) * self.size if self.page > 0 else 0)
 
 
-class Paginated(pydantic.BaseModel):
+class Paginated(BaseModel):
     total: int
-    items: typing.List[typing.Any]
+    items: list[Any]

@@ -3,4 +3,4 @@ from typing import Union
 
 from src.databases import postgres
 
-ORM = TypeVar("ORM", bound=Union[postgres.CRUD])
+Table = TypeVar("Table", bound=Union[postgres.Table])

@@ -834,7 +834,7 @@ class Paginated(pydantic.BaseModel):
 [[files]]
 path ="src/endpoints/http/openapi/__init__.py"
 content = """
-from src.tools.fastapi import APIRouter
+from fastapi import APIRouter
 
 router = APIRouter()
 """
@@ -842,7 +842,7 @@ router = APIRouter()
 [[files]]
 path ="src/endpoints/http/systemapi/__init__.py"
 content = """
-from src.tools.fastapi import APIRouter
+from fastapi import APIRouter
 
 router = APIRouter()
 """
@@ -952,7 +952,7 @@ app.add_middleware(
 
 app.include_router(router)
 
-app.routing_exclude_paths = []  # src.tools.fastapi.routing.py
+app.routing_exclude_paths = []  # fastapi.routing.py
 
 app.mount("/api/static", StaticFiles(directory="src/static"), name="static")
 

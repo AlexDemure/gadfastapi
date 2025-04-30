@@ -1,4 +1,4 @@
-from src.tools.fastapi import APIRouter
+from fastapi import APIRouter
 
 from .dummy import router as dummy_router
 

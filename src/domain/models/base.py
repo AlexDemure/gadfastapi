@@ -1,10 +1,10 @@
-import pydantic
+from pydantic import BaseModel
+from pydantic import ConfigDict
+from src.databases.tables import Table
 
-from src.databases.postgres.tables import Table
 
-
-class Model(pydantic.BaseModel):
-    model_config = pydantic.ConfigDict(from_attributes=True, extra="allow")
+class Model(BaseModel):
+    model_config = ConfigDict(from_attributes=True, extra="allow")
 
     @classmethod
     def to_dict(cls, table: Table) -> dict:

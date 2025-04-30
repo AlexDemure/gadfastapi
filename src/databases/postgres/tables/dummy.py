@@ -2,10 +2,10 @@ from sqlalchemy import BigInteger
 from sqlalchemy import Column
 from sqlalchemy import String
 
-from src.databases.postgres.setup import Table
+from .base import Base
 
 
-class Dummy(Table):
+class Dummy(Base):
     __tablename__ = "dummy"
 
     id = Column(BigInteger, primary_key=True)

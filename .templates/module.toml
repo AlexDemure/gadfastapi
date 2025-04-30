@@ -29,7 +29,7 @@ from gadfastopenapi.extensions.errors import openapi_errors
 from src.domain import exceptions
 from src.domain import services
 from src.endpoints.http.const import tags
-from src.tools.fastapi import APIRouter
+from fastapi import APIRouter
 
 from .schemas import Search
 from .schemas import {{module.pascal.single}}

@@ -1,5 +1,12 @@
 import contextlib
 
+import fastapi.routing
+from gadfastrouter import APIRoute
+from gadfastrouter import APIRouter
+
+fastapi.APIRouter = APIRouter
+fastapi.routing.APIRoute = APIRoute
+
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,13 +18,21 @@ from gadfastopenapi import OpenAPI
 from gadfastopenapi.extensions.affix import affix
 from gadfastopenapi.extensions.errors import APIError
 from gadfastopenapi.extensions.operationid import use_route_as_operation_id
-
 from src.endpoints.http import router
+from src.storages import etcd
+
+from .asyncio import detector
+from .cron import cron
+from .health import health
 
 
 @contextlib.asynccontextmanager
 async def lifespan(_: FastAPI):
+    detector.start()
+    cron.start()
     yield
+    cron.shutdown()
+    detector.shutdown()
 
 
 app = FastAPI(
@@ -51,9 +66,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(health.router)
+
+app.include_router(etcd.router)
+
 app.include_router(router)
 
-app.routing_exclude_paths = []  # src.tools.fastapi.routing.py
+app.exclude_paths = []  # fastapi.routing.py
 
 app.mount("/api/static", StaticFiles(directory="src/static"), name="static")
 

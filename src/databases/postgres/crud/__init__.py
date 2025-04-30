@@ -1,2 +1,2 @@
-from .base import CRUD
+from .base import CRUD  # type:ignore
 from .dummy import Dummy

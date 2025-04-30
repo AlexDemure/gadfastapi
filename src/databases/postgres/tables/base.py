@@ -1,5 +1,4 @@
-import typing
+from gadsqlalchemy import Base
+from gadsqlalchemy import Table
 
-from src.databases.postgres.setup import Table as _Table
-
-Table = typing.TypeVar("Table", bound=_Table)
+__all__ = ["Table", "Base"]

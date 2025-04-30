@@ -1,30 +1,29 @@
+from gadsqlalchemy import fetchall
+from gadsqlalchemy import fetchcount
+from gadsqlalchemy import fetchone
 from sqlalchemy import BinaryExpression
 from sqlalchemy import UnaryExpression
 from sqlalchemy import select
 from sqlalchemy.sql import asc
 from sqlalchemy.sql import desc
-
 from src.databases.postgres import tables
-from src.databases.postgres.setup import AsyncSession
+from src.databases.postgres.setup import Session
 
 from .base import CRUD
-from .base import count
-from .base import fetchall
-from .base import fetchone
 
 
 class Dummy(CRUD):
     table = tables.Dummy
 
     @classmethod
-    async def relations(cls, session: AsyncSession, **kwargs) -> tables.Dummy:
+    async def relations(cls, session: Session, **kwargs) -> tables.Dummy:
         query = select(cls.table).where(*cls.filters(kwargs))
         return await fetchone(session, query)
 
     @classmethod
     async def paginated(
         cls,
-        session: AsyncSession,
+        session: Session,
         filters: dict,
         sorting: dict,
         pagination: dict,
@@ -61,6 +60,6 @@ class Dummy(CRUD):
         query = select(cls.table).where(*filters).order_by(*sorting)
 
         rows = await fetchall(session, query.limit(limit).offset(offset))
-        total = await count(session, query)
+        total = await fetchcount(session, query)
 
         return rows, total
